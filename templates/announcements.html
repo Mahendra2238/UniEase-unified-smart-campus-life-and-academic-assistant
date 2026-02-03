@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Announcements - UniEase{% endblock %}
+
+{% block content %}
+<div class="page-container">
+    <div class="page-header">
+        <h1>Announcements</h1>
+        {% if user.profile.role in 'faculty,admin' %}
+        <a href="{% url 'create_announcement' %}" class="btn btn-primary">Create Announcement</a>
+        {% endif %}
+    </div>
+
+    <div class="content-area">
+        {% if announcements %}
+        {% for announcement in announcements %}
+        <div class="announcement-card">
+            <div class="announcement-header">
+                <h3>{{ announcement.title }}</h3>
+                <span class="badge badge-{{ announcement.priority }}">{{ announcement.priority }}</span>
+            </div>
+            <p class="announcement-content">{{ announcement.content }}</p>
+            <div class="announcement-footer">
+                <small>Posted by {{ announcement.posted_by.get_full_name }} | {{ announcement.created_at|timesince }} ago</small>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="empty-state-large">
+            <p>No announcements available</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
