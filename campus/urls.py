@@ -21,6 +21,7 @@ urlpatterns = [
     
     # Timetable & Syllabus
     path('timetable/', views.timetable, name='timetable'),
+    path('timetable/create/', views.create_timetable, name='create_timetable'),
     path('syllabus/', views.syllabus, name='syllabus'),
     path('syllabus/update/<int:topic_id>/', views.update_syllabus, name='update_syllabus'),
     
