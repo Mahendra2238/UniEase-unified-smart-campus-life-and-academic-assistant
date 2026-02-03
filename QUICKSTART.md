@@ -1,110 +1,69 @@
-# UniEase - Quick Start Guide
+# ⚡ UniEase - Quick Start Guide
 
-Get UniEase up and running in minutes!
+Get UniEase up and running in under 2 minutes!
 
-## Prerequisites
+## 📋 Prerequisites
 
 Before you begin, ensure you have:
-- Python 3.10+ installed
-### 2. Database
+- **Python 3.10+** installed.
+- **MySQL Server** running (optional if using local SQLite for testing).
 
-UniiEase comes pre-configured with SQLite for development, so no extra database setup is required!
+## 🚀 Setup Steps
 
+### 1. Database Configuration
+UniEase is configured for **MySQL** by default.
+1. Create a database named `uniease_db`.
+2. Update your credentials in `uniease/settings.py` (Default: `root` / `system`).
 
-### 3. Automated Setup & Data Population (Recommended)
+> [!TIP]
+> To use **SQLite** instead, simply comment out the MySQL settings and uncomment the SQLite block in `uniease/settings.py`.
 
-We have provided scripts to make setup instantaneous and populate realistic sample data.
+### 2. Automated Installation
+Run these commands in your terminal:
 
-**Step A: Apply Migrations**
 ```bash
+# Install dependencies
+pip install django pillow pymysql
+
+# Apply database migrations
 python manage.py makemigrations
 python manage.py migrate
-```
 
-**Step B: Populate Sample Data**
-*Creates students, faculty, warden, mess head, librarian, placement officer, exams, books, complaints, etc.*
-```bash
+# Populate realistic sample data
+# Creates 100+ entries across all 23 models
 python scripts/populate_sample_data.py
 ```
 
-### 4. Start the Server
-
+### 3. Start the Platform
 ```bash
 python manage.py runserver
 ```
 
-### 5. Access UniEase
+---
 
-Open your browser and navigate to:
-- **Main Application**: http://127.0.0.1:8000/
-  - Click **"Student Login"** for students.
-  - Click **"Staff Login"** for faculty and staff.
-- **Admin Panel**: http://127.0.0.1:8000/admin/
+## 🔑 Access & Credentials
 
-## Sample Login Credentials
+Open your browser to: **[http://127.0.0.1:8000/](http://127.0.0.1:8000/)**
 
-All passwords are: `pass123` (except admin: `admin123`)
+### Sample Accounts (Password: `password123`)
+| Role | Username | Note |
+|------|----------|------|
+| **Student** | `student1` | Full student dashboard access |
+| **Faculty** | `faculty1` | Academic management tools |
+| **Warden** | `warden` | Hostel complaint resolution |
+| **Mess Head** | `messhead` | Menu and food feedback management |
+| **Librarian** | `librarian` | Book and seat tracking |
+| **Placement** | `placement` | Job and internship posting |
 
-  Student:         student1 / password123
-  Faculty:         faculty1 / password123
-  Warden:          warden / password123
-  Mess Head:       messhead / password123
-  Librarian:       librarian / password123
-  Placement:       placement / password123
-============================================================
-## Features by Role
+**Admin Portal**: [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)
+*Username: `admin` | Password: `admin123`*
 
-### 🎓 Student
-- **Dashboard**: View exams, borrowed books, status of complaints.
-- **Academics**: Announcements, Notes, Timetable, Syllabus, Exams, Doubts.
-- **Campus Life**: Lost & Found, Hostel Complaints, Transport, Mess Menu.
-- **Library**: Search books, view seat availability.
-- **Placements**: View and apply for jobs.
+---
 
-### 👨‍🏫 Faculty
-- **Dashboard**: View daily schedule, pending syllabus.
-- **Academics**: Upload notes, create exams, answer doubts.
-- **Placements**: Post new opportunities.
+## 🛠️ Troubleshooting
 
-### 🏠 Warden
-- **Dashboard**: Track hostel complaints (Water, Electrical, etc.).
-- **Complaints**: Resolve issues, update status.
+- **Database Errors**: Ensure MySQL is running and `uniease_db` exists.
+- **Images Not Showing**: Ensure `pip install pillow` was successful.
+- **Static Assets**: Run `python manage.py collectstatic` if styles are missing in production mode.
 
-### 🍛 Mess Head
-- **Dashboard**: Track mess/food complaints, average ratings.
-- **Mess**: Update daily menu.
-- **Complaints**: Prioritize and resolve food-related issues.
-
-### 📚 Librarian
-- **Dashboard**: Track overdue books, daily stats.
-- **Library**: Manage book inventory and seat occupancy.
-
-### 💼 Placement Officer
-- **Dashboard**: View recent applications, active drives.
-- **Placements**: Manage company listings and student applications.
-
-## Troubleshooting
-
-### Database Connection Error
-- Ensure MySQL is running.
-- Check credentials in `uniease/settings.py`.
-- Run: `python reset_database.py` (Warning: Deletes all data)
-
-### "Table doesn't exist" Error
-- Run: `python manage.py migrate`
-
-### Static Files Not Loading
-- Run: `python manage.py collectstatic`
-
-### Port Already in Use
-- Run: `python manage.py runserver 8080`
-
-## Production Deployment
-
-1. Set `DEBUG = False` in `settings.py`.
-2. Update `ALLOWED_HOSTS`.
-3. Use environment variables for secrets.
-4. Configure Nginx + Gunicorn.
-5. Set up SSL.
-
-Enjoy using UniEase! 🎓
+Enjoy your unified campus experience with **UniEase**! 🎓
