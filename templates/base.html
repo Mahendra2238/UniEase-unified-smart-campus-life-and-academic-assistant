@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}UniEase - Campus Management System{% endblock %}</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
@@ -57,27 +58,38 @@
 
             <div class="nav-right">
                 <div class="nav-profile-dropdown" id="profileDropdown">
-                    <button class="nav-profile-btn" id="profileBtn">
-                        <div class="nav-avatar">
+                    <button class="nav-profile-trigger" id="profileBtn">
+                        <div class="nav-avatar-circle">
                             {% if user.profile.profile_picture %}
-                            <img src="{{ user.profile.profile_picture.url }}" alt="Avatar">
+                            <img src="{{ user.profile.profile_picture.url }}" alt="Avatar" class="avatar-img">
                             {% else %}
-                            <span>{{ user.first_name|first }}</span>
+                            <span class="avatar-initials">{{ user.first_name|first }}{{ user.last_name|first }}</span>
                             {% endif %}
                         </div>
-                        <span class="nav-username">{{ user.first_name }} ▾</span>
                     </button>
-                    <div class="nav-profile-content">
-                        <div class="profile-header">
-                            <strong>{{ user.get_full_name }}</strong>
-                            <span>{{ user.profile.get_role_display }}</span>
+
+                    <div class="nav-dropdown-menu">
+                        <div class="dropdown-user-info">
+                            <span class="dropdown-name">{{ user.get_full_name }}</span>
+                            <span class="dropdown-role">{{ user.profile.get_role_display }}</span>
                         </div>
-                        <hr>
-                        <a href="{% url 'edit_profile' %}">👤 Edit Profile</a>
-                        <a href="{% url 'notifications' %}">🔔 Notifications</a>
-                        <a href="{% url 'academic_vault' %}">🔐 My Vault</a>
-                        <hr>
-                        <a href="{% url 'logout' %}" class="logout-link">🚪 Logout</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{% url 'edit_profile' %}" class="dropdown-item">
+                            <span class="item-icon">👤</span> Edit Profile
+                        </a>
+                        <a href="{% url 'notifications' %}" class="dropdown-item">
+                            <span class="item-icon">🔔</span> Notifications
+                            {% if unread_notifications_count > 0 %}
+                            <span class="notif-badge">{{ unread_notifications_count }}</span>
+                            {% endif %}
+                        </a>
+                        <a href="{% url 'academic_vault' %}" class="dropdown-item">
+                            <span class="item-icon">🔐</span> My Vault
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{% url 'logout' %}" class="dropdown-item logout-item">
+                            <span class="item-icon">🚪</span> Logout
+                        </a>
                     </div>
                 </div>
             </div>

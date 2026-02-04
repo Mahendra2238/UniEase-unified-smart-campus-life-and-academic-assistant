@@ -102,8 +102,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (profileBtn && profileDropdown) {
     profileBtn.addEventListener("click", (e) => {
+      e.preventDefault()
       e.stopPropagation()
       profileDropdown.classList.toggle("active")
+    })
+
+    // Hover also triggers for a modern feel (optional, following requirement)
+    profileDropdown.addEventListener("mouseenter", () => {
+      profileDropdown.classList.add("active")
+    })
+
+    profileDropdown.addEventListener("mouseleave", () => {
+      profileDropdown.classList.remove("active")
     })
 
     // Close dropdown when clicking outside
