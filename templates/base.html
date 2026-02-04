@@ -15,46 +15,72 @@
             <div class="nav-brand">
                 <a href="{% url 'dashboard' %}">🎓 UniEase</a>
             </div>
-            <ul class="nav-menu">
-                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropbtn">Academics ▾</a>
-                    <div class="dropdown-content">
-                        <a href="{% url 'announcements' %}">Announcements</a>
-                        <a href="{% url 'notes' %}">Notes</a>
-                        <a href="{% url 'timetable' %}">Timetable</a>
-                        <a href="{% url 'syllabus' %}">Syllabus</a>
-                        <a href="{% url 'exams' %}">Exams</a>
-                        <a href="{% url 'doubts' %}">Doubts</a>
+            <div class="nav-links">
+                <ul class="nav-menu">
+                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn">Academics ▾</a>
+                        <div class="dropdown-content">
+                            <a href="{% url 'announcements' %}">Announcements</a>
+                            <a href="{% url 'notes' %}">Notes</a>
+                            <a href="{% url 'timetable' %}">Timetable</a>
+                            <a href="{% url 'syllabus' %}">Syllabus</a>
+                            <a href="{% url 'exams' %}">Exams</a>
+                            <a href="{% url 'doubts' %}">Doubts</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn">Campus Life ▾</a>
+                        <div class="dropdown-content">
+                            <a href="{% url 'lost_found' %}">Lost & Found</a>
+                            <a href="{% url 'hostel_complaints' %}">Hostel Complaints</a>
+                            <a href="{% url 'transport' %}">Transport</a>
+                            <a href="{% url 'mess' %}">Mess</a>
+                        </div>
+                    </li>
+                    <li><a href="{% url 'library' %}">Library</a></li>
+                    <li><a href="{% url 'placements' %}">Placements</a></li>
+                    {% if user.profile.role == 'admin' %}
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn">Admin ▾</a>
+                        <div class="dropdown-content">
+                            <a href="{% url 'pending_approvals' %}">Pending Approvals</a>
+                            <a href="{% url 'create_announcement' %}">Create Announcement</a>
+                            <a href="{% url 'create_placement' %}">Create Placement</a>
+                            <a href="{% url 'hostel_complaints' %}">Manage Complaints</a>
+                            <a href="{% url 'create_exam' %}">Create Exam</a>
+                        </div>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <div class="nav-right">
+                <div class="nav-profile-dropdown">
+                    <button class="nav-profile-btn">
+                        <div class="nav-avatar">
+                            {% if user.profile.profile_picture %}
+                            <img src="{{ user.profile.profile_picture.url }}" alt="Avatar">
+                            {% else %}
+                            <span>{{ user.first_name|first }}</span>
+                            {% endif %}
+                        </div>
+                        <span class="nav-username">{{ user.first_name }} ▾</span>
+                    </button>
+                    <div class="nav-profile-content">
+                        <div class="profile-header">
+                            <strong>{{ user.get_full_name }}</strong>
+                            <span>{{ user.profile.get_role_display }}</span>
+                        </div>
+                        <hr>
+                        <a href="{% url 'edit_profile' %}">👤 Edit Profile</a>
+                        <a href="{% url 'notifications' %}">🔔 Notifications</a>
+                        <a href="{% url 'academic_vault' %}">🔐 My Vault</a>
+                        <hr>
+                        <a href="{% url 'logout' %}" class="logout-link">🚪 Logout</a>
                     </div>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropbtn">Campus Life ▾</a>
-                    <div class="dropdown-content">
-                        <a href="{% url 'lost_found' %}">Lost & Found</a>
-                        <a href="{% url 'hostel_complaints' %}">Hostel Complaints</a>
-                        <a href="{% url 'transport' %}">Transport</a>
-                        <a href="{% url 'mess' %}">Mess</a>
-                    </div>
-                </li>
-                <li><a href="{% url 'library' %}">Library</a></li>
-                <li><a href="{% url 'placements' %}">Placements</a></li>
-                <li><a href="{% url 'academic_vault' %}">My Vault</a></li>
-                <li><a href="{% url 'notifications' %}">🔔 Notifications</a></li>
-                {% if user.profile.role == 'admin' %}
-                <li class="dropdown">
-                    <a href="#" class="dropbtn">Admin ▾</a>
-                    <div class="dropdown-content">
-                        <a href="{% url 'pending_approvals' %}">Pending Approvals</a>
-                        <a href="{% url 'create_announcement' %}">Create Announcement</a>
-                        <a href="{% url 'create_placement' %}">Create Placement</a>
-                        <a href="{% url 'hostel_complaints' %}">Manage Complaints</a>
-                        <a href="{% url 'create_exam' %}">Create Exam</a>
-                    </div>
-                </li>
-                {% endif %}
-                <li><a href="{% url 'logout' %}">Logout</a></li>
-            </ul>
+                </div>
+            </div>
         </div>
     </nav>
     {% endif %}
