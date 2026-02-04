@@ -32,10 +32,10 @@
                 <label for="year">Year</label>
                 <select id="year" name="year">
                     <option value="" {% if not profile.year %}selected{% endif %}>Select Year</option>
-                    <option value="1" {% if profile.year == 1 %}selected{% endif %}>1st Year</option>
-                    <option value="2" {% if profile.year == 2 %}selected{% endif %}>2nd Year</option>
-                    <option value="3" {% if profile.year == 3 %}selected{% endif %}>3rd Year</option>
-                    <option value="4" {% if profile.year == 4 %}selected{% endif %}>4th Year</option>
+                    <option value="1" {% if profile.year==1 %}selected{% endif %}>1st Year</option>
+                    <option value="2" {% if profile.year==2 %}selected{% endif %}>2nd Year</option>
+                    <option value="3" {% if profile.year==3 %}selected{% endif %}>3rd Year</option>
+                    <option value="4" {% if profile.year==4 %}selected{% endif %}>4th Year</option>
                 </select>
             </div>
 
@@ -50,16 +50,6 @@
                     placeholder="Enter room number">
             </div>
 
-            <div class="form-group">
-                <label for="profile_picture">Profile Picture</label>
-                {% if profile.profile_picture %}
-                <div class="current-picture mb-2">
-                    <img src="{{ profile.profile_picture.url }}" alt="Profile Picture"
-                        style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;">
-                </div>
-                {% endif %}
-                <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
-            </div>
 
             <div class="form-actions mt-4">
                 <button type="submit" class="btn btn-primary btn-block">Update Profile</button>

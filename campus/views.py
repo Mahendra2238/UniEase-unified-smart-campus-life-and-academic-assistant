@@ -142,9 +142,6 @@ def edit_profile(request):
         
         profile.phone = request.POST.get('phone', '')
         profile.hostel_room = request.POST.get('hostel_room', '')
-        
-        if 'profile_picture' in request.FILES:
-            profile.profile_picture = request.FILES['profile_picture']
             
         profile.save()
         messages.success(request, 'Profile updated successfully!')
