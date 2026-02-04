@@ -60,11 +60,7 @@
                 <div class="nav-profile-dropdown" id="profileDropdown">
                     <button class="nav-profile-trigger" id="profileBtn">
                         <div class="nav-avatar-circle">
-                            {% if user.profile.profile_picture %}
-                            <img src="{{ user.profile.profile_picture.url }}" alt="Avatar" class="avatar-img">
-                            {% else %}
                             <span class="avatar-initials">{{ user.first_name|first }}{{ user.last_name|first }}</span>
-                            {% endif %}
                         </div>
                     </button>
 
