@@ -73,4 +73,9 @@ urlpatterns = [
     # Notifications
     path('notifications/', views.notifications, name='notifications'),
     path('notifications/mark-read/<int:notification_id>/', views.mark_notification_read, name='mark_notification_read'),
+
+    # Admin Approvals
+    path('admin-approvals/', views.pending_approvals, name='pending_approvals'),
+    path('admin-approvals/approve/<int:user_id>/', views.approve_user, name='approve_user'),
+    path('admin-approvals/reject/<int:user_id>/', views.reject_user, name='reject_user'),
 ]

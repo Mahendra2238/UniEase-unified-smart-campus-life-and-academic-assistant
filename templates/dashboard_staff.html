@@ -7,6 +7,14 @@
     <div class="dashboard-header">
         <h1>Welcome, {{ user.first_name }}!</h1>
         <p class="user-info">{{ user_profile.get_role_display }} | {{ user_profile.department }}</p>
+
+        {% if user_profile.role == 'admin' %}
+        <div class="admin-notice-banner"
+            style="background: #e3f2fd; padding:15px; border-radius: 8px; margin-top: 15px; border: 1px solid #2196f3;">
+            <strong>Admin Action Required:</strong> There may be pending user approvals.
+            <a href="{% url 'pending_approvals' %}" class="btn btn-sm btn-primary">Go to Approvals Dashboard</a>
+        </div>
+        {% endif %}
     </div>
 
     <!-- Stats Grid -->
@@ -228,6 +236,9 @@
 
             <!-- Admin Actions -->
             {% if user_profile.role == 'admin' %}
+            <a href="{% url 'pending_approvals' %}" class="action-btn">
+                <span class="action-icon">⚖️</span> Manage Approvals
+            </a>
             <a href="{% url 'create_announcement' %}" class="action-btn"><span class="action-icon">📢</span>
                 Announce</a>
             <a href="{% url 'create_timetable' %}" class="action-btn"><span class="action-icon">📅</span> Timetable</a>

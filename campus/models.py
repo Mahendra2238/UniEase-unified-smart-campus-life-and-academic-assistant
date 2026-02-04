@@ -22,6 +22,7 @@ class UserProfile(models.Model):
     phone = models.CharField(max_length=15, blank=True, null=True)
     hostel_room = models.CharField(max_length=50, blank=True, null=True)
     profile_picture = models.ImageField(upload_to='profiles/', blank=True, null=True)
+    is_approved = models.BooleanField(default=True)
     
     def __str__(self):
         return f"{self.user.username} - {self.role}"

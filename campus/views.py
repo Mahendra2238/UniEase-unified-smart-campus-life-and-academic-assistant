@@ -23,9 +23,13 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         
         if user is not None:
-            # Check Role Constraint
             try:
-                role = user.profile.role
+                profile = user.profile
+                if not profile.is_approved:
+                    messages.error(request, 'Your account is pending administrator approval.')
+                    return redirect('login')
+                
+                role = profile.role
                 if expected_role == 'student' and role != 'student':
                     messages.error(request, 'This is the Student Login portal. Staff please use Staff Login.')
                     return redirect(f'/login/?role={expected_role}')
@@ -64,16 +68,24 @@ def register_view(request):
             raw_year = request.POST.get('year', '')
             year_val = int(raw_year) if raw_year.isdigit() else None
             
+            # Determine if approval is needed (everyone except students needs approval)
+            is_approved = True if role == 'student' else False
+            
             UserProfile.objects.create(
                 user=user,
                 role=role,
                 roll_number=request.POST.get('roll_number', ''),
                 department=request.POST.get('department', ''),
                 year=year_val,
-                phone=request.POST.get('phone', '')
+                phone=request.POST.get('phone', ''),
+                is_approved=is_approved
             )
             
-            messages.success(request, 'Registration successful! Please login.')
+            if is_approved:
+                messages.success(request, 'Registration successful! Please login.')
+            else:
+                messages.success(request, 'Registration successful! Your account is pending administrator approval.')
+            
             return redirect('login')
     
     return render(request, 'register.html')
@@ -90,15 +102,25 @@ def create_profile(request):
         return redirect('dashboard')
 
     if request.method == 'POST':
+        role = request.POST.get('role', 'student')
+        is_approved = True if role == 'student' else False
+        
         UserProfile.objects.create(
             user=request.user,
-            role=request.POST.get('role', 'student'),
+            role=role,
             roll_number=request.POST.get('roll_number', ''),
             department=request.POST.get('department', ''),
             year=request.POST.get('year', None),
-            phone=request.POST.get('phone', '')
+            phone=request.POST.get('phone', ''),
+            is_approved=is_approved
         )
-        messages.success(request, 'Profile created successfully!')
+        if is_approved:
+            messages.success(request, 'Profile created successfully!')
+        else:
+            messages.success(request, 'Profile created! Your account is pending administrator approval.')
+            logout(request)
+            return redirect('login')
+        
         return redirect('dashboard')
 
     return render(request, 'create_profile.html')
@@ -910,3 +932,48 @@ def mark_notification_read(request, notification_id):
     notification.is_read = True
     notification.save()
     return redirect('notifications')
+
+# Admin Approval Views
+@login_required
+def pending_approvals(request):
+    if request.user.profile.role != 'admin':
+        messages.error(request, 'Access denied.')
+        return redirect('dashboard')
+    
+    pending_users = UserProfile.objects.filter(is_approved=False).select_related('user')
+    return render(request, 'admin_approvals.html', {'pending_users': pending_users})
+
+@login_required
+def approve_user(request, user_id):
+    if request.user.profile.role != 'admin':
+        messages.error(request, 'Access denied.')
+        return redirect('dashboard')
+    
+    profile = get_object_or_404(UserProfile, id=user_id)
+    profile.is_approved = True
+    profile.save()
+    
+    # Notify user
+    Notification.objects.create(
+        user=profile.user,
+        title='Account Approved',
+        message='Your account has been approved by the administrator. You can now access all features.',
+        notification_type='info'
+    )
+    
+    messages.success(request, f'Account for {profile.user.username} has been approved.')
+    return redirect('pending_approvals')
+
+@login_required
+def reject_user(request, user_id):
+    if request.user.profile.role != 'admin':
+        messages.error(request, 'Access denied.')
+        return redirect('dashboard')
+    
+    profile = get_object_or_404(UserProfile, id=user_id)
+    user = profile.user
+    username = user.username
+    user.delete() # Deleting user will cascade to profile
+    
+    messages.warning(request, f'Account for {username} has been rejected and deleted.')
+    return redirect('pending_approvals')

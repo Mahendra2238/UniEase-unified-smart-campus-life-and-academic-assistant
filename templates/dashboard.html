@@ -299,6 +299,11 @@
     <div class="quick-actions">
         <h2>Quick Actions</h2>
         <div class="action-buttons">
+            {% if user_profile.role == 'admin' %}
+            <a href="{% url 'pending_approvals' %}" class="action-btn">
+                <span class="action-icon">⚖️</span> Manage Approvals
+            </a>
+            {% endif %}
             {% if user_profile.role == 'mess_head' %}
             <a href="{% url 'mess' %}" class="action-btn">
                 <span class="action-icon">🍱</span> Manage Menu

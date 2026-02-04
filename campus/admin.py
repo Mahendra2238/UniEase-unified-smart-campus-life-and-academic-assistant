@@ -12,13 +12,13 @@ from .models import (
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'role', 'department', 'year', 'roll_number', 'phone')
-    list_filter = ('role', 'department', 'year')
+    list_display = ('user', 'role', 'department', 'year', 'roll_number', 'phone', 'is_approved')
+    list_filter = ('role', 'is_approved', 'department', 'year')
     search_fields = ('user__username', 'user__email', 'roll_number', 'phone')
     readonly_fields = ('user',)
     fieldsets = (
         ('User Information', {
-            'fields': ('user', 'role')
+            'fields': ('user', 'role', 'is_approved')
         }),
         ('Academic Details', {
             'fields': ('roll_number', 'department', 'year')
