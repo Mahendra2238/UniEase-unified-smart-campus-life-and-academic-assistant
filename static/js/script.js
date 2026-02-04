@@ -13,17 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
-  // Mobile menu toggle for dropdowns
-  const dropdowns = document.querySelectorAll(".dropdown")
-  dropdowns.forEach((dropdown) => {
-    dropdown.addEventListener("click", function (e) {
-      if (window.innerWidth <= 768) {
-        e.preventDefault()
-        this.classList.toggle("active")
-      }
-    })
-  })
-
   // Confirm before deleting
   const deleteButtons = document.querySelectorAll(".btn-delete")
   if (deleteButtons) {
@@ -59,25 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 
-  // Real-time search filtering (for future implementation)
-  const searchInputs = document.querySelectorAll('input[type="search"]')
-  searchInputs.forEach((input) => {
-    input.addEventListener("input", function () {
-      // Implement real-time filtering here
-      console.log("Searching for:", this.value)
-    })
-  })
-
-  // Dynamic table sorting (for future implementation)
-  const tableHeaders = document.querySelectorAll("th[data-sortable]")
-  tableHeaders.forEach((header) => {
-    header.style.cursor = "pointer"
-    header.addEventListener("click", function () {
-      // Implement sorting logic here
-      console.log("Sorting by:", this.textContent)
-    })
-  })
-
   // Smooth scroll for anchor links
   const anchorLinks = document.querySelectorAll('a[href^="#"]')
   anchorLinks.forEach((link) => {
@@ -96,31 +66,46 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 
-  // Profile dropdown toggle
-  const profileBtn = document.getElementById("profileBtn")
-  const profileDropdown = document.getElementById("profileDropdown")
+  // Enhanced dropdown functionality for all navbar menus (Profile, Academics, Campus Life)
+  const allDropdowns = document.querySelectorAll(".dropdown, .nav-profile-dropdown")
 
-  if (profileBtn && profileDropdown) {
-    profileBtn.addEventListener("click", (e) => {
+  allDropdowns.forEach((dropdown) => {
+    // Target triggers: both generic .dropbtn and specific .nav-profile-trigger
+    const trigger = dropdown.querySelector(".dropbtn, .nav-profile-trigger")
+    if (!trigger) return
+
+    trigger.addEventListener("click", (e) => {
       e.preventDefault()
       e.stopPropagation()
-      profileDropdown.classList.toggle("active")
+
+      const wasActive = dropdown.classList.contains("active")
+
+      // Close all other dropdowns
+      allDropdowns.forEach((other) => {
+        if (other !== dropdown) other.classList.remove("active")
+      })
+
+      // Toggle current dropdown
+      // If it's already active (perhaps from hover), we want to ensure it stays 
+      // active or toggles properly without flickering.
+      dropdown.classList.toggle("active")
     })
 
-    // Hover also triggers for a modern feel (optional, following requirement)
-    profileDropdown.addEventListener("mouseenter", () => {
-      profileDropdown.classList.add("active")
+    // Mouseenter adds 'active' for smooth hover experience on desktop
+    dropdown.addEventListener("mouseenter", () => {
+      dropdown.classList.add("active")
     })
 
-    profileDropdown.addEventListener("mouseleave", () => {
-      profileDropdown.classList.remove("active")
+    // Mouseleave removes 'active'
+    dropdown.addEventListener("mouseleave", () => {
+      dropdown.classList.remove("active")
     })
+  })
 
-    // Close dropdown when clicking outside
-    document.addEventListener("click", (e) => {
-      if (!profileDropdown.contains(e.target)) {
-        profileDropdown.classList.remove("active")
-      }
+  // Close all open dropdowns when clicking anywhere outside
+  document.addEventListener("click", () => {
+    allDropdowns.forEach((dropdown) => {
+      dropdown.classList.remove("active")
     })
-  }
+  })
 })

@@ -164,7 +164,8 @@ body {
   padding: 0.5rem;
 }
 
-.dropdown:hover .dropdown-content {
+.dropdown:hover .dropdown-content,
+.dropdown.active .dropdown-content {
   display: block;
   opacity: 1;
   transform: translateY(0);
