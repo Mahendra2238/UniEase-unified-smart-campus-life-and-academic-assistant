@@ -99,7 +99,7 @@ def logout_view(request):
 @login_required
 def create_profile(request):
     if hasattr(request.user, 'profile'):
-        return redirect('dashboard')
+        return redirect('edit_profile')
 
     if request.method == 'POST':
         role = request.POST.get('role', 'student')
@@ -110,7 +110,7 @@ def create_profile(request):
             role=role,
             roll_number=request.POST.get('roll_number', ''),
             department=request.POST.get('department', ''),
-            year=request.POST.get('year', None),
+            year=request.POST.get('year', None) if request.POST.get('year') else None,
             phone=request.POST.get('phone', ''),
             is_approved=is_approved
         )
@@ -124,6 +124,33 @@ def create_profile(request):
         return redirect('dashboard')
 
     return render(request, 'create_profile.html')
+
+
+@login_required
+def edit_profile(request):
+    try:
+        profile = request.user.profile
+    except UserProfile.DoesNotExist:
+        return redirect('create_profile')
+
+    if request.method == 'POST':
+        profile.roll_number = request.POST.get('roll_number', '')
+        profile.department = request.POST.get('department', '')
+        
+        year_val = request.POST.get('year')
+        profile.year = int(year_val) if year_val and year_val.isdigit() else None
+        
+        profile.phone = request.POST.get('phone', '')
+        profile.hostel_room = request.POST.get('hostel_room', '')
+        
+        if 'profile_picture' in request.FILES:
+            profile.profile_picture = request.FILES['profile_picture']
+            
+        profile.save()
+        messages.success(request, 'Profile updated successfully!')
+        return redirect('dashboard')
+
+    return render(request, 'edit_profile.html', {'profile': profile})
 
 
 @login_required
@@ -292,6 +319,42 @@ def create_announcement(request):
         return redirect('announcements')
 
     return render(request, 'create_announcement.html')
+
+
+@login_required
+def edit_announcement(request, announcement_id):
+    announcement = get_object_or_404(Announcement, id=announcement_id)
+    
+    # Check permission: creator or admin
+    if request.user != announcement.posted_by and request.user.profile.role != 'admin':
+        messages.error(request, 'You do not have permission to edit this announcement.')
+        return redirect('announcements')
+
+    if request.method == 'POST':
+        announcement.title = request.POST.get('title')
+        announcement.content = request.POST.get('content')
+        announcement.target_audience = request.POST.get('target_audience')
+        announcement.priority = request.POST.get('priority')
+        announcement.save()
+        
+        messages.success(request, 'Announcement updated successfully!')
+        return redirect('announcements')
+    
+    return render(request, 'edit_announcement.html', {'announcement': announcement})
+
+
+@login_required
+def delete_announcement(request, announcement_id):
+    announcement = get_object_or_404(Announcement, id=announcement_id)
+    
+    # Check permission: creator or admin
+    if request.user != announcement.posted_by and request.user.profile.role != 'admin':
+        messages.error(request, 'You do not have permission to delete this announcement.')
+    else:
+        announcement.delete()
+        messages.success(request, 'Announcement deleted successfully!')
+    
+    return redirect('announcements')
 
 
 @login_required

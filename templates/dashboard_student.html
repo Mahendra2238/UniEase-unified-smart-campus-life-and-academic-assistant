@@ -6,7 +6,10 @@
 <div class="dashboard-container">
     <div class="dashboard-header">
         <h1>Welcome, {{ user.first_name }}!</h1>
-        <p class="user-info">Student | {{ user_profile.year }} Year | {{ user_profile.department }}</p>
+        <p class="user-info">
+            Student | {{ user_profile.year }} Year | {{ user_profile.department }}
+            | <a href="{% url 'edit_profile' %}" class="edit-profile-link">Edit Profile</a>
+        </p>
     </div>
 
     <!-- Student Stats -->

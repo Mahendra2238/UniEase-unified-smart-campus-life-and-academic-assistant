@@ -6,7 +6,10 @@
 <div class="dashboard-container">
     <div class="dashboard-header">
         <h1>Welcome, {{ user.first_name }}!</h1>
-        <p class="user-info">{{ user_profile.get_role_display }} | {{ user_profile.department }}</p>
+        <p class="user-info">
+            {{ user_profile.get_role_display }} | {{ user_profile.department }}
+            | <a href="{% url 'edit_profile' %}" class="edit-profile-link">Edit Profile</a>
+        </p>
 
         {% if user_profile.role == 'admin' %}
         <div class="admin-notice-banner"

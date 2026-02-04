@@ -7,7 +7,8 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('register/', views.register_view, name='register'),
     path('logout/', views.logout_view, name='logout'),
-    path('create-profile/', views.create_profile, name='create_profile'),
+    path('profile/create/', views.create_profile, name='create_profile'),
+    path('profile/edit/', views.edit_profile, name='edit_profile'),
 
     # Dashboard
     path('dashboard/', views.dashboard, name='dashboard'),
@@ -15,6 +16,8 @@ urlpatterns = [
     # Announcements & Notes
     path('announcements/', views.announcements, name='announcements'),
     path('announcements/create/', views.create_announcement, name='create_announcement'),
+    path('announcements/edit/<int:announcement_id>/', views.edit_announcement, name='edit_announcement'),
+    path('announcements/delete/<int:announcement_id>/', views.delete_announcement, name='delete_announcement'),
     path('notes/', views.notes, name='notes'),
     path('notes/upload/', views.upload_note, name='upload_note'),
     path('notes/download/<int:note_id>/', views.download_note, name='download_note'),
