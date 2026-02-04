@@ -95,4 +95,22 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     })
   })
+
+  // Profile dropdown toggle
+  const profileBtn = document.getElementById("profileBtn")
+  const profileDropdown = document.getElementById("profileDropdown")
+
+  if (profileBtn && profileDropdown) {
+    profileBtn.addEventListener("click", (e) => {
+      e.stopPropagation()
+      profileDropdown.classList.toggle("active")
+    })
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!profileDropdown.contains(e.target)) {
+        profileDropdown.classList.remove("active")
+      }
+    })
+  }
 })

@@ -252,7 +252,7 @@ body {
   animation: slideDown 0.2s ease-out;
 }
 
-.nav-profile-dropdown:hover .nav-profile-content {
+.nav-profile-dropdown.active .nav-profile-content {
   display: block;
 }
 
