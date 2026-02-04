@@ -218,7 +218,7 @@ body {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary) 0%, #818CF8 100%);
+  background: #667eea;
   color: white;
   display: flex;
   align-items: center;
@@ -710,6 +710,11 @@ body {
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+.header-faculty {
+  border-left: 4px solid var(--primary);
+  padding-left: 1.5rem;
+}
+
 .dashboard-header h1 {
   color: var(--text-main);
   margin-bottom: 0.5rem;
@@ -752,7 +757,7 @@ body {
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   margin-bottom: 3rem;
 }
