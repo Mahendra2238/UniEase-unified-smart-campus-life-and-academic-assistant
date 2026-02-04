@@ -7,8 +7,11 @@
     <div class="dashboard-header">
         <h1>Welcome, {{ user.first_name }}!</h1>
         <p class="user-info">
-            Student | {{ user_profile.year }} Year | {{ user_profile.department }}
-            | <a href="{% url 'edit_profile' %}" class="edit-profile-link">Edit Profile</a>
+            <span class="role-tag">Student</span>
+            {% if user_profile.year %}<span class="separator">•</span> {{ user_profile.year }} Year{% endif %}
+            {% if user_profile.department %}<span class="separator">•</span> {{ user_profile.department }}{% endif %}
+            <span class="separator">•</span> <a href="{% url 'edit_profile' %}" class="edit-profile-link">Edit
+                Profile</a>
         </p>
     </div>
 

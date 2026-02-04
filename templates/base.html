@@ -59,14 +59,18 @@
             <div class="nav-right">
                 <div class="nav-profile-dropdown" id="profileDropdown">
                     <button class="nav-profile-trigger" id="profileBtn">
-                        <div class="nav-avatar-circle">
-                            <span class="avatar-initials">{{ user.first_name|first }}{{ user.last_name|first }}</span>
-                        </div>
+                        <span class="avatar-initials">
+                            {% if user.first_name and user.last_name %}
+                            {{ user.first_name|first }}{{ user.last_name|first }}
+                            {% else %}
+                            {{ user.username|slice:":2" }}
+                            {% endif %}
+                        </span>
                     </button>
 
                     <div class="nav-dropdown-menu">
                         <div class="dropdown-user-info">
-                            <span class="dropdown-name">{{ user.get_full_name }}</span>
+                            <span class="dropdown-name">{{ user.get_full_name|default:user.username }}</span>
                             <span class="dropdown-role">{{ user.profile.get_role_display }}</span>
                         </div>
                         <div class="dropdown-divider"></div>

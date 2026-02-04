@@ -4,11 +4,13 @@
 
 {% block content %}
 <div class="dashboard-container">
-    <div class="dashboard-header">
+    <div class="dashboard-header header-faculty">
         <h1>Welcome, {{ user.first_name }}!</h1>
         <p class="user-info">
-            {{ user_profile.get_role_display }} | {{ user_profile.department }}
-            | <a href="{% url 'edit_profile' %}" class="edit-profile-link">Edit Profile</a>
+            <span class="role-tag">{{ user_profile.get_role_display }}</span>
+            {% if user_profile.department %}<span class="separator">•</span> {{ user_profile.department }}{% endif %}
+            <span class="separator">•</span> <a href="{% url 'edit_profile' %}" class="edit-profile-link">Edit
+                Profile</a>
         </p>
     </div>
 

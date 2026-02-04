@@ -88,10 +88,17 @@ body {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 2rem;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 3rem;
+  height: 70px;
+}
+
+.nav-links {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 2rem;
 }
 
 .nav-brand a {
@@ -698,7 +705,9 @@ body {
 }
 
 .dashboard-header {
-  margin-bottom: 0;
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .dashboard-header h1 {
@@ -711,7 +720,34 @@ body {
 
 .user-info {
   color: var(--text-muted);
-  font-size: 1.1rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.role-tag {
+  background: rgba(79, 70, 229, 0.1);
+  color: var(--primary);
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.separator {
+  color: #CBD5E1;
+}
+
+.edit-profile-link {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.edit-profile-link:hover {
+  text-decoration: underline;
 }
 
 .stats-grid {
@@ -878,10 +914,11 @@ body {
 /* Quick Actions */
 .quick-actions {
   background: linear-gradient(to right, #4f46e5, #7c3aed);
-  padding: 3rem;
+  padding: 2.5rem;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   color: white;
+  margin-top: 2rem;
 }
 
 .quick-actions h2 {
